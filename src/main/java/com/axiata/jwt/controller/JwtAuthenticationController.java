@@ -54,13 +54,12 @@ public class JwtAuthenticationController {
 				.loadUserByUsername(authenticationRequest.getUsername());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
-
+		
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
-		
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 	
@@ -99,6 +98,13 @@ public class JwtAuthenticationController {
 		daoUser.setBirthPlace(userDTO.getBirthPlace());
 	    Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(userDTO.getBirthDate());  
 		daoUser.setBirthDate(date1);
+		return ResponseEntity.ok(userDao.save(daoUser));
+	}
+	
+	@RequestMapping(value = "/deactivate", method = RequestMethod.PUT)
+	public ResponseEntity<?> deactivateUser(@RequestParam String active, @RequestBody UserDTO userDTO) throws Exception {
+		DAOUser daoUser = userDao.findByUsername(userDTO.getUsername());
+		daoUser.setActive(active);
 		return ResponseEntity.ok(userDao.save(daoUser));
 	}
 

@@ -28,6 +28,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		DAOUser user = userDao.findByUsername(username);
+		if (user.getActive().equals("N")) {
+			user = null;
+		}
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
@@ -45,6 +48,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 			e.printStackTrace();
 		}
 		newUser.setBirthDate(birthDate);
+		newUser.setActive("Y");
 		String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
 		newUser.setUsername(user.getUsername());
 		newUser.setPassword(encodedPassword);

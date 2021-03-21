@@ -27,6 +27,8 @@ public class DAOUser {
 	private String birthPlace;
 	@Column(name = "birth_date")
 	private Date birthDate;
+	@Column(name = "active")
+	private String active;
 
 	public String getUsername() {
 		return username;
@@ -74,6 +76,14 @@ public class DAOUser {
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
 	}
 
 }
